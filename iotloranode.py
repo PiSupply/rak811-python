@@ -6,14 +6,20 @@
 """
 
 #Import the serial library for the respective platform
+loraNodeSerialBaud = 9600
 
 #Raspberry Pi
-
-#Beaglebone
-
-#ESP32
+import serial
+rpiSer = serial.Serial("/dev/ttyACM0".loraNodeSerialBaud)
 
 #Microbit
+import uart
+uart.init(loraNoeSerialBaud,tx=14,rx=15)
+#Beaglebone
+#Not doing beaglebone yet
+#ESP32
+#Not doing esp yet
+
 
 class loraNode:
     """RAK811 Interface Library - Converts inputs given to serial commands for RAK811"""
