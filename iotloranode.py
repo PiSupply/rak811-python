@@ -7,19 +7,33 @@
 
 #Import the serial library for the respective platform
 loraNodeSerialBaud = 9600
+serialLib = 0
+serial_write = None;
+serial_read = None;
 
 #Raspberry Pi
-import serial
-rpiSer = serial.Serial("/dev/ttyACM0".loraNodeSerialBaud)
-
-#Microbit
-import uart
-uart.init(loraNoeSerialBaud,tx=14,rx=15)
-#Beaglebone
-#Not doing beaglebone yet
+try:
+    #Should be RPi or Beaglebone
+    import serial
+    rpiSer = serial.Serial("/dev/ttyUSB0",loraNodeSerialBaud)
+    serial_write = rpiSer.write
+    serial_read = rpiSer.readline
+    serialLib = 1
+except:
+    pass
+#Microbit Micropython
+try:
+    import uart
+    uart.init(loraNoeSerialBaud,tx=14,rx=15)
+    serial_write = uart.write
+    serial_read = uart.readline
+    serialLib=2
+except:
+    pass
 #ESP32
 #Not doing esp yet
-
+if(serialLib==0):
+    print("Error! No Serial Library Detected");
 
 class loraNode:
     """RAK811 Interface Library - Converts inputs given to serial commands for RAK811"""
