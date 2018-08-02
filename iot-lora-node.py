@@ -25,9 +25,29 @@ class iotloranode(object):
     # UART Functions
     ############
 
+
     ############
     # Set Settings Functions
     ############
+    def set_devAddr(self,address):
+        """Set Device Address"""
+    def set_devEUI(self,address):
+        """Set Device EUI"""
+    def set_appEUI(self,address):
+        """Set Application EUI"""
+    def set_appKey(self,address):
+        """Set Application Key"""
+    def set_networkKey(self,address):
+        """Set Network Key"""
+    def set_appSessionKey(self,address):
+        """Set Application Session Key"""
+    def set_loraPower(self,address):
+        """Set Lora Power Level"""
+    def set_DevAddr(self,address):
+        """Set Device Address"""
+    def set_DevAddr(self,address):
+        """Set Device Address"""
+
 
     ############
     # Get Settings Functions
