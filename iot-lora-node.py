@@ -43,20 +43,54 @@ class iotloranode(object):
         """Set Application Session Key"""
     def set_loraPower(self,address):
         """Set Lora Power Level"""
-    def set_DevAddr(self,address):
-        """Set Device Address"""
-    def set_DevAddr(self,address):
-        """Set Device Address"""
+    def set_adrMode(self,address):
+        """Set Adaptive Data Rate"""
+    def set_spreadingFactor(self,address):
+        """Set Spreading Factor"""
 
 
     ############
     # Get Settings Functions
     ############
-
+    def get_devAddr(self,address):
+        """Get Device Address"""
+    def get_devEUI(self,address):
+        """Get Device EUI"""
+    def get_appEUI(self,address):
+        """Get Application EUI"""
+    def get_appKey(self,address):
+        """Get Application Key"""
+    def get_networkKey(self,address):
+        """Get Network Key"""
+    def get_appSessionKey(self,address):
+        """Get Application Session Key"""
+    def get_loraPower(self,address):
+        """Get Lora Power Level"""
+    def get_adrMode(self,address):
+        """Get Adaptive Data Rate"""
+    def get_spreadingFactor(self,address):
+        """Get Spreading Factor"""
     ############
-    # LoRa Transmit Functions
+    # LoRa Functions
     ############
-
+    def join_request(self):
+        """Join over OTAA"""
+    def send_raw_packet(self,address):
+        """Send raw bytes packet"""
+    def sent_string_packet(self,address):
+        """Send a string packet"""
+    def send_int_packet(self,address):
+        """Send integer packet"""
+    def recieve_packet(self,address):
+        """Check To See if there is any response"""
     ############
     # GPIO Functions
     ############
+    def gpio_setmode(self,address):
+        """Set Pin GPIO Mode"""
+    def gpio_read(self,address):
+        """Set Device EUI"""
+    def gpio_write(self,address):
+        """Set Application EUI"""
+    def gpio_adc(self,address):
+        """Set Application Key"""   
