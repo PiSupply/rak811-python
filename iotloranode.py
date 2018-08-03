@@ -5,41 +5,51 @@
 # Designed for Raspberry Pi, Beaglebone, ESP32 & Microbit
 """
 
-#Import the serial library for the respective platform
-loraNodeSerialBaud = 9600
-serialLib = 0
-serial_write = None;
-serial_read = None;
-
-#Raspberry Pi
-try:
-    #Should be RPi or Beaglebone
-    import serial
-    rpiSer = serial.Serial("/dev/ttyUSB0",loraNodeSerialBaud)
-    serial_write = rpiSer.write
-    serial_read = rpiSer.readline
-    serialLib = 1
-except:
-    pass
-#Microbit Micropython
-try:
-    import uart
-    uart.init(loraNoeSerialBaud,tx=14,rx=15)
-    serial_write = uart.write
-    serial_read = uart.readline
-    serialLib=2
-except:
-    pass
-#ESP32
-#Not doing esp yet
-if(serialLib==0):
-    print("Error! No Serial Library Detected");
+import binascii
 
 class loraNode:
     """RAK811 Interface Library - Converts inputs given to serial commands for RAK811"""
-
+    loraNodeSerialBaud = 115200
+    serialLib = 0
+    serial_write = None;
+    serial_read = None;
+    serLib = None;
+    abp = "abp"
+    otaa = "otaa"
     def __init__(self, region=1):
         """Initialise The Library and connect to the module"""
+        #Import the serial library for the respective platform
+
+        if(self.serialLib==0):
+            #Should be RPi or Beaglebone
+            try:
+                import serial
+                self.serLib = serial.Serial("/dev/ttyUSB0",self.loraNodeSerialBaud)
+                self.serial_write = self.serLib.write
+                self.serial_read = self.serLib.readline
+                self.serialLib = 1
+            except:
+                print("Error importing Raspberry Pi")
+                pass
+
+        if(self.serialLib==0):
+            #Microbit Micropython
+            try:
+                import uart
+                self.serLib = uart
+                self.serLib.init(self.loraNodeSerialBaud,tx=14,rx=15)
+                self.serial_write = uart.write
+                self.serial_read = uart.readline
+                self.serialLib=2
+            except:
+                print("Error importing Microbit")
+                pass
+        #ESP32
+        #Not doing esp yet
+        if(self.serialLib==0):
+            print("Error! No Serial Library Detected");
+        self.reset_radio()
+        self.set_spreadingFactor(5);
 
     ############
     # UART Functions
@@ -47,9 +57,11 @@ class loraNode:
     def uart_tx(self,command):
         """Takes the command and sends it via UART via the correct library"""
         #First add at to the beginning
-        command = "at+%s" % command
-
+        command = "at+%s\r\n" % command
         print(command)
+        self.serial_write(str.encode(command))
+        line = self.serLib.readline()
+        print(line)
     def uart_rx(self):
         """Returns serial data"""
     ############
@@ -89,7 +101,7 @@ class loraNode:
         self.uart_tx(command)
     def set_spreadingFactor(self,sf):
         """Set Spreading Factor"""
-        command = "set_config=dr:%s" % sf
+        command = "dr=%s" % sf
         self.uart_tx(command)
 
 
@@ -135,18 +147,30 @@ class loraNode:
     ############
     # LoRa Functions
     ############
-    def join_request(self):
-        """Join over OTAA"""
+    def join(self,mode):
+        """Join"""
+        if(mode==self.abp):
+            command = "join=abp"
+            self.uart_tx(command)
+        elif(mode==self.otaa):
+            print("OTAA Not Programmed In Yet")
     def send_raw_packet(self,packet,port):
         """Send raw bytes packet"""
-    def sent_string_packet(self,string,port):
+    def send_string_packet(self,string,port=1,pktType=0):
         """Send a string packet"""
+        command = "send=%s,%s,%s" % (pktType, port, binascii.hexlify(string.encode()).decode("utf-8"))
+        self.uart_tx(command)
+        #There will be an extra response
+        line = self.serLib.readline()
+        print(line)
     def send_int_packet(self,int,port):
         """Send integer packet"""
     def recieve_packet(self):
         """Check To See if there is any response"""
     def reset_radio(self):
         """Reset the RAK811 Radio Module"""
+        command = "reset=0"
+        self.uart_tx(command)
     def lora_mode(self,mode):
         """Change between LoRaWAN & LoRaP2P Modes"""
     def lora_band(self,band):
