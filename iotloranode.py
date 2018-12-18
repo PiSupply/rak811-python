@@ -1,4 +1,4 @@
-# IOT LoRa Node Python Library - Used to interface to RAK811 Boards
+k# IOT LoRa Node Python Library - Used to interface to RAK811 Boards
 # with Micropython/Python 3.X
 # Copyright (C) 2018 Pi Supply
 # Written by Ryan Walmsley (Ryan@pi-supply.com)
@@ -19,6 +19,8 @@ class loraNode:
     serLib = None
     abp = "abp"
     otaa = "otaa"
+    EU868 = "EU868"
+    US915 = "US915"
 
     def __init__(self, region=1):
         """Initialise The Library and connect to the module"""
@@ -28,7 +30,7 @@ class loraNode:
             # Should be RPi or Beaglebone
             try:
                 import serial
-                self.serLib = serial.Serial("/dev/ttyUSB0",
+                self.serLib = serial.Serial("/dev/ttyAMA0",
                                             self.loraNodeSerialBaud)
                 self.serial_write = self.serLib.write
                 self.serial_read = self.serLib.readline
@@ -120,6 +122,11 @@ class loraNode:
     def set_spreadingFactor(self, sf):
         """Set Spreading Factor"""
         command = "dr=%s" % sf
+        self.uart_tx(command)
+
+    def set_region(self, sf):
+        """Set LoRaWAN Region"""
+        command = "band=%s" % sf
         self.uart_tx(command)
 
     ############
