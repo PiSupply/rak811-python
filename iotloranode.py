@@ -1,4 +1,4 @@
-k# IOT LoRa Node Python Library - Used to interface to RAK811 Boards
+# IOT LoRa Node Python Library - Used to interface to RAK811 Boards
 # with Micropython/Python 3.X
 # Copyright (C) 2018 Pi Supply
 # Written by Ryan Walmsley (Ryan@pi-supply.com)
