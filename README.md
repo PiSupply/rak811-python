@@ -18,5 +18,7 @@ It'll reboot and then either re-connect or re-open a terminal.
 
 Next download the python file to a directory you wish, currently it isn't available via Pip but will be soon.The easiest way is to wget https://raw.githubusercontent.com/PiSupply/rak811-python/master/iotloranode.py
 
+Finally you will need to install python serial which can be done with "sudo apt install python3-serial python3-rpi.gpio"
+
 
 We're still working on the documentation and all of the functions but you can see an example at https://github.com/PiSupply/rak811-python/blob/master/example.py to get started.
