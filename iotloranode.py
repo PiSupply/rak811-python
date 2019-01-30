@@ -2,11 +2,10 @@
 # with Micropython/Python 3.X
 # Copyright (C) 2018 Pi Supply
 # Written by Ryan Walmsley (Ryan@pi-supply.com)
-# Designed for Raspberry Pi, Beaglebone, ESP32 & Microbit
-
+# Designed for Raspberry Pi
 
 import binascii
-
+from time import sleep
 
 class loraNode:
 
@@ -30,11 +29,20 @@ class loraNode:
             # Should be RPi or Beaglebone
             try:
                 import serial
+                from RPi import GPIO
                 self.serLib = serial.Serial("/dev/ttyAMA0",
                                             self.loraNodeSerialBaud)
                 self.serial_write = self.serLib.write
                 self.serial_read = self.serLib.readline
                 self.serialLib = 1
+                GPIO.setmode(GPIO.BCM)
+                GPIO.setup(17,GPIO.OUT)
+                GPIO.output(17,0)
+                sleep(0.5)
+                GPIO.output(17,1)
+                self.serLib.readline()
+                self.serLib.readline()
+                self.serLib.readline()
             except ModuleNotFoundError:
                 print("Error importing Raspberry Pi")
                 pass
@@ -56,8 +64,7 @@ class loraNode:
         # Not doing esp yet
         if(self.serialLib == 0):
             print("Error! No Serial Library Detected")
-        self.reset_radio()
-        self.set_spreadingFactor(5)
+        self.set_spreadingFactor(0)
 
     ############
     # UART Functions
@@ -69,7 +76,7 @@ class loraNode:
         print(command)
         self.serial_write(str.encode(command))
         line = self.serLib.readline()
-        print(line)
+        return line
 
     def uart_rx(self):
         line = self.serLib.readline()
@@ -212,7 +219,10 @@ class loraNode:
         """Reset the RAK811 Radio Module"""
         command = "reset=0"
         self.uart_tx(command)
-        self.uart_rx()
+        print(self.uart_rx())
+        print(self.uart_rx())
+        print(self.uart_rx())
+
 
     def lora_mode(self, mode):
         """Change between LoRaWAN & LoRaP2P Modes"""
