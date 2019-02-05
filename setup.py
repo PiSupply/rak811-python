@@ -1,6 +1,5 @@
-"""Setup module for RTk.GPIO based on the example
-
-
+"""
+Setup Module for Pi Supply IoT LoRa Node pHAT
 """
 
 # Always prefer setuptools over distutils
@@ -16,25 +15,25 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='RTk',
+    name='iotloranode',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.3.6',
+    version='0.0.1',
 
-    description='RTk.GPIO Python Library',
+    description='IoT LoRa Node pHAT Python Library',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://bitbucket.org/ryanteckltd/rtk-gpio-python-side/',
+    url='https://github.com/PiSupply/rak811-python',
 
     # Author details
-    author='Ryanteck LTD.',
-    author_email='Ryan@ryanteck.uk',
+    author='Pi Supply',
+    author_email='Ryan@pi-supply.com',
 
     # Choose your license
-    license='MIT',
+    license='GNU GPL V3',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -42,22 +41,20 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Intended Audience :: Education',
         "Topic :: Education",
         "Topic :: System :: Hardware",
         'Topic :: Software Development',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU GPL V3',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
 
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
@@ -66,7 +63,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='Raspberry Pi GPIO RTk GPIO',
+    keywords='Raspberry Pi IoT LoRa Node TheThingsNetwork TTN',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
