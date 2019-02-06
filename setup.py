@@ -50,7 +50,7 @@ setup(
         'Topic :: Software Development',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: GNU GPL V3',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -71,7 +71,6 @@ setup(
     packages=find_packages(),
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
-      # py_modules=["RTk"],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
