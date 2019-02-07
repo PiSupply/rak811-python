@@ -1,11 +1,11 @@
-#Beta Testers Folder
+# Beta Testers Folder
 The items in this folder are intended for beta testers and will not need to be
 used by normal users.
 
-#Warning
+# Warning
 Do not do this on 
 
-#How To
+# How To
 First edit /boot/config.txt by using ```sudo nano /boot/config.txt```
 Go to the bottom of the file and add in: ```dtparam=i2c_vc=on```
 
