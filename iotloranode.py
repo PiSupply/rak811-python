@@ -25,45 +25,22 @@ class loraNode:
         """Initialise The Library and connect to the module"""
         # Import the serial library for the respective platform
 
-        if(self.serialLib == 0):
-            # Should be RPi or Beaglebone
-            try:
-                import serial
-                from RPi import GPIO
-                self.serLib = serial.Serial("/dev/ttyAMA0",
-                                            self.loraNodeSerialBaud)
-                self.serial_write = self.serLib.write
-                self.serial_read = self.serLib.readline
-                self.serialLib = 1
-                GPIO.setmode(GPIO.BCM)
-                GPIO.setup(17,GPIO.OUT)
-                GPIO.output(17,0)
-                sleep(0.5)
-                GPIO.output(17,1)
-                self.serLib.readline()
-                self.serLib.readline()
-                self.serLib.readline()
-            except ModuleNotFoundError:
-                print("Error importing Raspberry Pi")
-                pass
+        import serial
+        from RPi import GPIO
+        GPIO.setwarnings(False)
+        self.serLib = serial.Serial("/dev/ttyAMA0", self.loraNodeSerialBaud)
+        self.serial_write = self.serLib.write
+        self.serial_read = self.serLib.readline
+        self.serialLib = 1
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(17,GPIO.OUT)
+        GPIO.output(17,0)
+        sleep(0.01)
+        GPIO.output(17,1)
 
-        if(self.serialLib == 0):
-            # Microbit Micropython
-            try:
-                import uart
-                self.serLib = uart
-                self.serLib.init(self.loraNodeSerialBaud, tx=14, rx=15)
-                self.serial_write = uart.write
-                self.serial_read = uart.readline
-                self.serialLib = 2
-            except ModuleNotFoundError:
-                print("Error importing Microbit")
-                pass
-
-        # ESP32
-        # Not doing esp yet
-        if(self.serialLib == 0):
-            print("Error! No Serial Library Detected")
+        self.serLib.readline()
+        self.serLib.readline()
+        self.serLib.readline()
         self.set_spreadingFactor(0)
 
     ############
