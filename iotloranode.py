@@ -200,9 +200,9 @@ class loraNode:
         """Reset the RAK811 Radio Module"""
         command = "reset=0"
         self.uart_tx(command)
-        print(self.uart_rx())
-        print(self.uart_rx())
-        print(self.uart_rx())
+        self.uart_rx()
+        self.uart_rx()
+        self.uart_rx()
 
 
     def lora_mode(self, mode):
@@ -210,6 +210,9 @@ class loraNode:
 
     def lora_band(self, band):
         """Set LoRaWAN Region"""
+        command = "band="+band
+        self.uart_tx(command)
+
 
     ############
     # GPIO Functions
