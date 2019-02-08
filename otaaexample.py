@@ -1,4 +1,4 @@
-#ABP Example
+#OTAA Example
 from iotloranode import loraNode
 #Setup the Node
 node = loraNode()
