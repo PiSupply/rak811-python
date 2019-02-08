@@ -171,7 +171,11 @@ class loraNode:
             command = "join=abp"
             self.uart_tx(command)
         elif(mode == self.otaa):
-            print("OTAA Not Programmed In Yet")
+            command = "join=otaa"
+            self.uart_tx(command)
+            # Extra response from otaa join
+            line = self.serLib.readline()
+            return True
 
     def send_raw_packet(self, packet, port):
         """Send raw bytes packet"""
