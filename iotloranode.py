@@ -28,7 +28,7 @@ class loraNode:
         import serial
         from RPi import GPIO
         GPIO.setwarnings(False)
-        self.serLib = serial.Serial("/dev/ttyAMA0", self.loraNodeSerialBaud)
+        self.serLib = serial.Serial("/dev/serial0", self.loraNodeSerialBaud)
         self.serial_write = self.serLib.write
         self.serial_read = self.serLib.readline
         self.serialLib = 1
@@ -43,6 +43,8 @@ class loraNode:
         self.serLib.readline()
         self.set_spreadingFactor(0)
 
+        self.serLib.readline()
+
     ############
     # UART Functions
     ############
@@ -50,13 +52,16 @@ class loraNode:
         """Takes the command and sends it via UART via the correct library"""
         # First add at to the beginning
         command = "at+%s\r\n" % command
-        print(command)
+        #print(command)
         self.serial_write(str.encode(command))
+
         line = self.serLib.readline()
+        #print(line)
         return line
 
     def uart_rx(self):
         line = self.serLib.readline()
+        #print(line)
         return line
         """Returns serial data"""
 
@@ -120,47 +125,56 @@ class loraNode:
     def get_devAddr(self):
         """Get Device Address"""
         command = "get_config=dev_addr"
-        self.uart_tx(command)
+
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
 
     def get_devEUI(self):
         """Get Device EUI"""
         command = "get_config=dev_eui"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
+
 
     def get_appEUI(self):
         """Get Application EUI"""
         command = "get_config=app_eui"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     def get_appKey(self):
         """Get Application Key"""
         command = "get_config=app_key"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     def get_networkKey(self):
         """Get Network Key"""
         command = "get_config=nwks_key"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
 
     def get_appSessionKey(self):
         """Get Application Session Key"""
         command = "get_config=apps_key"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     def get_loraPower(self):
         """Get Lora Power Level"""
         command = "get_config=pwr_level"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     def get_adrMode(self):
         """Get Adaptive Data Rate"""
         command = "get_config=adr"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     def get_spreadingFactor(self):
         """Get Spreading Factor"""
         command = "get_config=dr"
-        self.uart_tx(command)
+        return str(self.uart_tx(command)).split("OK")[1].split("\\")[0]
+
 
     ############
     # LoRa Functions
@@ -188,7 +202,7 @@ class loraNode:
         self.uart_tx(command)
         # There will be an extra response
         line = self.serLib.readline()
-        print(line)
+        return line
 
     def send_int_packet(self, int, port):
         """Send integer packet"""
