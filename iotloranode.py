@@ -20,6 +20,13 @@ class loraNode:
     otaa = "otaa"
     EU868 = "EU868"
     US915 = "US915"
+    KR920 = "KR920"
+    AU915 = "AU915"
+    AS923 = "AS923"
+    IN865 = "IN865"
+
+    SpreadFactors = {7:5,8:4,9:3,10:2,11:1,12:0}
+
 
     def __init__(self, region=1):
         """Initialise The Library and connect to the module"""
@@ -41,7 +48,7 @@ class loraNode:
         self.serLib.readline()
         self.serLib.readline()
         self.serLib.readline()
-        self.set_spreadingFactor(0)
+        self.set_spreadingFactor(7)
 
         self.serLib.readline()
 
@@ -110,7 +117,7 @@ class loraNode:
 
     def set_spreadingFactor(self, sf):
         """Set Spreading Factor"""
-        command = "dr=%s" % sf
+        command = "dr=%s" % self.SpreadFactors[sf]
         self.uart_tx(command)
 
     def set_region(self, sf):
